@@ -21,7 +21,6 @@ class _SecondScreenState extends State<SecondScreen> {
   late Future<Music3> fetch2;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     fetch = networking.getTracksDetailsSecondScreen();
     fetch2 = networking.getLyrics();
@@ -31,20 +30,48 @@ class _SecondScreenState extends State<SecondScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+            backgroundColor: Colors.black26, title: Text("Track Details")),
         backgroundColor: Colors.greenAccent,
         body: Container(
+          margin: EdgeInsets.only(left: 10),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               FutureBuilder<Music2>(
                 future: fetch,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(snapshot.data!.message!.body!.track!.albumName
-                            .toString()),
-                        Text((snapshot.data!.message!.body!.track!.artistName
-                            .toString()))
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Album",
+                              style: TextStyle(
+                                fontSize: 25,
+                              ),
+                            ),
+                            Text(snapshot.data!.message!.body!.track!.albumName
+                                .toString()),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Column(
+                          children: [
+                            const Text(
+                              "Artist",
+                              style: TextStyle(fontSize: 25),
+                            ),
+                            Text((snapshot
+                                .data!.message!.body!.track!.artistName
+                                .toString())),
+                          ],
+                        )
                       ],
                     );
                   } else {
@@ -54,12 +81,24 @@ class _SecondScreenState extends State<SecondScreen> {
                   }
                 },
               ),
+              SizedBox(
+                height: 20,
+              ),
               FutureBuilder<Music3>(
                 future: fetch2,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return Text(snapshot.data!.message!.body!.lyrics!.lyricsBody
-                        .toString());
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Lyrics",
+                          style: TextStyle(fontSize: 25),
+                        ),
+                        Text(snapshot.data!.message!.body!.lyrics!.lyricsBody
+                            .toString()),
+                      ],
+                    );
                   } else {
                     return const Center(
                       child: CircularProgressIndicator.adaptive(),

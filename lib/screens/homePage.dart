@@ -20,11 +20,7 @@ class _HomePageState extends State<HomePage> {
   Networking networking = Networking();
 
   late Future<Music> fetch;
-  // void gettingTrackID{
-  //   TrackID = snapshot.data?.message!.body!
-  //                               .trackList![index].track!.trackId
-  //                               .toString(),
-  // }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -39,14 +35,8 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.greenAccent,
         appBar: AppBar(
           backgroundColor: Colors.black26,
-          title: Text("Lyrics"),
+          title: Center(child: Text("Trending")),
         ),
-        // body: Container(
-        //   padding: EdgeInsets.fromLTRB(30, 40, 30, 40),
-        //   child: TextButton(
-        //       onPressed: networking.getTracksDetails,
-        //       child: Text('Click here')),
-        // ),
         body: Container(
           margin: EdgeInsets.all(10),
           child: FutureBuilder<Music>(
@@ -62,23 +52,31 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.greenAccent,
                         elevation: 20,
                         borderRadius: BorderRadius.circular(10),
-                        child: ListTile(
-                          onTap: () => {
-                            TrackID = snapshot.data?.message!.body!
-                                .trackList![index].track!.trackId
-                                .toString(),
-                            print(TrackID),
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SecondScreen(),
-                                ))
-                          },
-                          dense: false,
-                          contentPadding: EdgeInsets.all(10),
-                          title: Text(snapshot.data!.message!.body!
-                              .trackList![index].track!.trackName
-                              .toString()),
+                        child: Expanded(
+                          child: ListTile(
+                            onTap: () => {
+                              TrackID = snapshot.data?.message!.body!
+                                  .trackList![index].track!.trackId
+                                  .toString(),
+                              print(TrackID),
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SecondScreen(),
+                                  ))
+                            },
+                            contentPadding: EdgeInsets.all(10),
+                            leading: Icon(Icons.image),
+                            subtitle: Text(snapshot.data!.message!.body!
+                                .trackList![index].track!.artistName
+                                .toString()),
+                            trailing: Text(snapshot.data!.message!.body!
+                                .trackList![index].track!.albumName
+                                .toString()),
+                            title: Text(snapshot.data!.message!.body!
+                                .trackList![index].track!.trackName
+                                .toString()),
+                          ),
                         ),
                       );
                     },
